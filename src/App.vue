@@ -2,8 +2,12 @@
   <div id="app">
     <my-nav></my-nav>
     <my-header></my-header>
-    <my-content></my-content>
-    <my-more></my-more>
+      <my-content-nav></my-content-nav>
+      <div class='blank'>
+        <my-card id='stream' v-bind:url ="story.url" v-bind:title="story.title" v-bind:img-link="story.images[0]" v-for="story in stories"></my-card>
+        <div></div>
+      </div>
+      <my-more @click="handle"></my-more>
     <my-footer></my-footer>
   </div>
 </template>
@@ -12,7 +16,8 @@
 
 import MyNav from './components/MyNav.vue'
 import MyHeader from './components/MyHeader.vue'
-import MyContent from './components/MyContent.vue'
+import MyContentNav from './components/MyContentNav.vue'
+import MyCard from './components/MyCard.vue'
 import MyMore from './components/MyMore.vue'
 import MyFooter from './components/MyFooter.vue'
 export default {
@@ -20,18 +25,21 @@ export default {
   components: {
     MyNav,
     MyHeader,
-    MyContent,
+    MyContentNav,
+    MyCard,
     MyMore,
     MyFooter
   },
   data: () => {
   return {
-    stories: []
+    stories: [],
+    url:'https://www.baidu.com'
     }
   },
   methods: {
     created: function(){
       console.log('1111111')
+      
     }
   },
   mounted: function(){
@@ -44,7 +52,8 @@ export default {
       })
       .then((json)=> {
       console.log(json.stories)
-      that.$data.stories = json.stories
+      const array = []
+      that.$data.stories = array.concat(json.stories).concat(json.stories).concat(json.stories)
       })
   }
 }
@@ -58,5 +67,24 @@ export default {
 template {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-
+my-content-nav{
+  position: relative;
+  top:50px;
+}
+.blank{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content:center;
+  background-color: rgb(249, 249, 249);
+  padding-left: 100px;
+  padding-right: 100px;
+}
+#stream{
+  display: inline-block;
+}
+#stream:hover{
+  display: inline-block;
+  background-color: red;
+}
 </style>
